@@ -1,0 +1,41 @@
+{"id": "sources/postgresql-basics.pdf|1.1. Installation|p2-2|part1", "metadata": {}, "text_len": 1649}
+{"id": "sources/postgresql-basics.pdf|1.2. Architectural Fundamentals|p2-2|part1", "metadata": {}, "text_len": 1347}
+{"id": "sources/postgresql-basics.pdf|1.2. Architectural Fundamentals|p2-2|part2", "metadata": {}, "text_len": 608}
+{"id": "sources/postgresql-basics.pdf|1.3. Creating a Database|p2-4|part1", "metadata": {}, "text_len": 1657}
+{"id": "sources/postgresql-basics.pdf|1.3. Creating a Database|p2-4|part2", "metadata": {}, "text_len": 1758}
+{"id": "sources/postgresql-basics.pdf|1.3. Creating a Database|p2-4|part3", "metadata": {}, "text_len": 593}
+{"id": "sources/postgresql-basics.pdf|1.4. Accessing a Database|p4-6|part1", "metadata": {}, "text_len": 1709}
+{"id": "sources/postgresql-basics.pdf|1.4. Accessing a Database|p4-6|part2", "metadata": {}, "text_len": 1607}
+{"id": "sources/postgresql-basics.pdf|2.1. Introduction|p6-6|part1", "metadata": {}, "text_len": 1273}
+{"id": "sources/postgresql-basics.pdf|2.2. Concepts|p6-6|part1", "metadata": {}, "text_len": 1032}
+{"id": "sources/postgresql-basics.pdf|2.3. Creating a New Table|p6-7|part1", "metadata": {}, "text_len": 590}
+{"id": "sources/postgresql-basics.pdf|2.3. Creating a New Table|p6-7|part2", "metadata": {}, "text_len": 1724}
+{"id": "sources/postgresql-basics.pdf|2.4. Populating a Table With Rows|p7-8|part1", "metadata": {}, "text_len": 1639}
+{"id": "sources/postgresql-basics.pdf|2.4. Populating a Table With Rows|p7-8|part2", "metadata": {}, "text_len": 564}
+{"id": "sources/postgresql-basics.pdf|2.5. Querying a Table|p8-10|part1", "metadata": {}, "text_len": 1580}
+{"id": "sources/postgresql-basics.pdf|2.5. Querying a Table|p8-10|part2", "metadata": {}, "text_len": 1763}
+{"id": "sources/postgresql-basics.pdf|2.6. Joins Between Tables|p10-12|part1", "metadata": {}, "text_len": 1231}
+{"id": "sources/postgresql-basics.pdf|2.6. Joins Between Tables|p10-12|part2", "metadata": {}, "text_len": 1845}
+{"id": "sources/postgresql-basics.pdf|2.6. Joins Between Tables|p10-12|part3", "metadata": {}, "text_len": 1480}
+{"id": "sources/postgresql-basics.pdf|2.6. Joins Between Tables|p10-12|part4", "metadata": {}, "text_len": 1704}
+{"id": "sources/postgresql-basics.pdf|2.7. Aggregate Functions|p12-14|part1", "metadata": {}, "text_len": 1731}
+{"id": "sources/postgresql-basics.pdf|2.7. Aggregate Functions|p12-14|part2", "metadata": {}, "text_len": 1646}
+{"id": "sources/postgresql-basics.pdf|2.7. Aggregate Functions|p12-14|part3", "metadata": {}, "text_len": 982}
+{"id": "sources/postgresql-basics.pdf|2.8. Updates|p14-14|part1", "metadata": {}, "text_len": 657}
+{"id": "sources/postgresql-basics.pdf|2.9. Deletions|p14-16|part1", "metadata": {}, "text_len": 797}
+{"id": "sources/postgresql-basics.pdf|3.1. Introduction|p16-16|part1", "metadata": {}, "text_len": 669}
+{"id": "sources/postgresql-basics.pdf|3.2. Views|p16-16|part1", "metadata": {}, "text_len": 862}
+{"id": "sources/postgresql-basics.pdf|3.3. Foreign Keys|p16-17|part1", "metadata": {}, "text_len": 1579}
+{"id": "sources/postgresql-basics.pdf|3.4. Transactions|p17-19|part1", "metadata": {}, "text_len": 1150}
+{"id": "sources/postgresql-basics.pdf|3.4. Transactions|p17-19|part2", "metadata": {}, "text_len": 832}
+{"id": "sources/postgresql-basics.pdf|3.4. Transactions|p17-19|part3", "metadata": {}, "text_len": 1714}
+{"id": "sources/postgresql-basics.pdf|3.4. Transactions|p17-19|part4", "metadata": {}, "text_len": 1679}
+{"id": "sources/postgresql-basics.pdf|3.4. Transactions|p17-19|part5", "metadata": {}, "text_len": 1304}
+{"id": "sources/postgresql-basics.pdf|3.5. Window Functions|p19-22|part1", "metadata": {}, "text_len": 1805}
+{"id": "sources/postgresql-basics.pdf|3.5. Window Functions|p19-22|part2", "metadata": {}, "text_len": 1793}
+{"id": "sources/postgresql-basics.pdf|3.5. Window Functions|p19-22|part3", "metadata": {}, "text_len": 1767}
+{"id": "sources/postgresql-basics.pdf|3.5. Window Functions|p19-22|part4", "metadata": {}, "text_len": 1716}
+{"id": "sources/postgresql-basics.pdf|3.5. Window Functions|p19-22|part5", "metadata": {}, "text_len": 657}
+{"id": "sources/postgresql-basics.pdf|3.6. Inheritance|p22-23|part1", "metadata": {}, "text_len": 1792}
+{"id": "sources/postgresql-basics.pdf|3.6. Inheritance|p22-23|part2", "metadata": {}, "text_len": 986}
+{"id": "sources/postgresql-basics.pdf|3.7. Conclusion|p23-23|part1", "metadata": {}, "text_len": 370}
