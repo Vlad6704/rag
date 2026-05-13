@@ -9,20 +9,19 @@ from pathlib import Path
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+from constants import MODEL_NAME_DENSE, BATCH_SIZE
+
 from constants import DATA_DOC_NAME
 
 CHUNKS_PATH = Path(f"data/{DATA_DOC_NAME}.chunks.jsonl")
 OUT_EMB = Path(f"data/{DATA_DOC_NAME}.embeddings.npy")
 OUT_META = Path(f"data/{DATA_DOC_NAME}.embeddings.meta.jsonl")
 
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-BATCH_SIZE = 64
-
 def main():
     if not CHUNKS_PATH.exists():
         raise FileNotFoundError(f"Missing {CHUNKS_PATH.resolve()}")
 
-    model = SentenceTransformer(MODEL_NAME)
+    model = SentenceTransformer(MODEL_NAME_DENSE)
 
     texts = []
     metas = []

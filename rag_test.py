@@ -2,23 +2,25 @@ import json
 import http.client
 from pathlib import Path
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from qdrant_client import QdrantClient, models
+from sentence_transformers import SentenceTransformer, SparseEncoder
+from constants import DB_COLLECTION_NAME, MODEL_NAME_DENSE, BATCH_SIZE, MODEL_NAME_SPARSE
 
 from constants import DATA_DOC_NAME
 
 CHUNKS_PATH = Path(f"data/{DATA_DOC_NAME}.chunks.jsonl")
 EMB_PATH = Path(f"data/{DATA_DOC_NAME}.embeddings.npy")
 
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
 
 HISTORY_TURNS = 6  # how many Q/A pairs to keep
 
 def call_llm(prompt: str) -> str:
     conn = http.client.HTTPConnection("localhost", 11434)
     body = {
-        "model": "qwen3:8b",
+        "model": "gemma4:26b",
         "prompt": prompt,
         "stream": False,
+        "think": False,
     }
     conn.request("POST", "/api/generate", json.dumps(body))
     resp = json.loads(conn.getresponse().read())
@@ -51,10 +53,10 @@ def build_prompt(question: str, contexts: list[dict], history: list[dict]) -> st
     for c in contexts:
         m = c["metadata"] or {}
         header = (
-            f"[id={c['id']} | chapter={m.get('chapter')} | section={m.get('section')} | "
+            f"[id={m.get('id')} | chapter={m.get('chapter')} | section={m.get('section')} | "
             f"pages={m.get('page_start')}-{m.get('page_end')}]"
         )
-        ctx_blocks.append(header + "\n" + c["text"].strip())
+        ctx_blocks.append(header + "\n" + m.get("text").strip())
 
     context_text = "\n\n---\n\n".join(ctx_blocks)
     history_text = format_history(history, HISTORY_TURNS)
@@ -112,6 +114,51 @@ def retrieve(question: str, chunks: list[dict], chunk_emb: np.ndarray, embedder,
         results.append({**c, "score": float(scores[int(idx)])})
     return results
 
+def retrieve_by_vector_db(question: str, chunks: list[dict], chunk_emb: np.ndarray, embedder, top_k: int = 5):
+    
+    db_client = QdrantClient(host="localhost", port=6333)
+
+
+    model = SentenceTransformer(MODEL_NAME_DENSE)
+    model_sparse =  SparseEncoder(MODEL_NAME_SPARSE)
+
+    emb = model.encode(
+        question,
+        batch_size=BATCH_SIZE,
+        show_progress_bar=True,
+        convert_to_numpy=True,
+        normalize_embeddings=True,
+    ).astype(np.float32)
+
+    emb_sparse = model_sparse.encode(
+        question,
+    )
+
+    search_result = db_client.query_points(
+        collection_name=DB_COLLECTION_NAME,
+        prefetch=[
+            models.Prefetch(
+                query=models.SparseVector(
+                    indices=emb_sparse.coalesce().indices().tolist()[0],
+                    values=emb_sparse.coalesce().values().tolist()),
+                using="sparse",
+                limit=5,
+            ),
+            models.Prefetch(
+                query=emb,
+                using="dense",
+                limit=5,
+            ),
+        ],
+        query=models.FusionQuery(fusion=models.Fusion.RRF),
+    ).points
+    
+    results = []
+    for chunk in search_result:
+        results.append({"metadata": chunk.payload, "score": chunk.score})
+    return results
+
+
 def main():
     if not CHUNKS_PATH.exists():
         raise FileNotFoundError(f"Missing {CHUNKS_PATH}")
@@ -124,7 +171,7 @@ def main():
     if emb.shape[0] != len(chunks):
         raise ValueError(f"Embeddings rows ({emb.shape[0]}) != chunks ({len(chunks)})")
 
-    embedder = SentenceTransformer(MODEL_NAME)
+    embedder = SentenceTransformer(MODEL_NAME_DENSE)
 
     history: list[dict] = []
 
@@ -134,12 +181,12 @@ def main():
             break
 
         # Retrieval can optionally include history; start simple with current q only
-        ctx = retrieve(q, chunks, emb, embedder, top_k=5)
+        ctx = retrieve_by_vector_db(q, chunks, emb, embedder, top_k=5)
 
         print("\nTop contexts:")
         for c in ctx:
             m = c["metadata"] or {}
-            print(f"- score={c['score']:.3f} id={c['id']} section={m.get('section')} pages={m.get('page_start')}-{m.get('page_end')}")
+            print(f"- score={c['score']:.3f} id={m.get('id')} section={m.get('section')} pages={m.get('page_start')}-{m.get('page_end')}")
 
         prompt = build_prompt(q, ctx, history)
         answer = call_llm(prompt)

@@ -56,7 +56,7 @@ def make_chunk_id(meta: dict) -> str:
     p1 = meta.get("page_start") or "?"
     p2 = meta.get("page_end") or "?"
     part = meta.get("part") or 1
-    return f"{source}|{section}|p{p1}-{p2}|part{part}"
+    return f"{source}_{section}_p{p1}__{p2}_part{part}"
 
 
 def _normalize_page_text(md: str) -> str:
@@ -397,9 +397,9 @@ def save_jsonl(chunks: list[Chunk], out_path: str) -> None:
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
     
     with open(out_path, "w", encoding="utf-8") as f:
-        for ch in chunks:
+        for (i,ch) in enumerate(chunks):
             row = {
-                "chunk_id": ch.meta["chunk_id"],
+                "id": i + 1,
                 "text": ch.text,
                 "meta": ch.meta,
             }
@@ -427,6 +427,6 @@ if __name__ == "__main__":
     print(sections)
 
     # # 2) split long sections into parts (no repeated intro; heading + 1 prev line)
-    # chunks = split_long_sections(sections, max_tokens=450)
+    chunks = split_long_sections(sections, max_tokens=450)
 
-    # save_jsonl(chunks, f"data/{DATA_DOC_NAME}.chunks.jsonl")
+    save_jsonl(chunks, f"data/{DATA_DOC_NAME}.chunks.jsonl")

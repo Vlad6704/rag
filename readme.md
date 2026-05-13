@@ -84,4 +84,4 @@ You can now ask questions about your document. Type `exit` to quit.
 ## Configuration
 
 - **LLM Model**: To change the LLM model (e.g., to Llama 3), edit `rag_test.py` in the `call_llm` function.
-- **Embedding Model**: Default is `sentence-transformers/all-MiniLM-L6-v2`. Change `MODEL_NAME` in `embed_chunks.py` and `rag_test.py` to use a different one.
+- **Embedding Model**: Default is `sentence-transformers/all-MiniLM-L6-v2`. Change `MODEL_NAME_DENSE` in `embed_chunks.py` and `rag_test.py` to use a different one.
