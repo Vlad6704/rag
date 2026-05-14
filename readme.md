@@ -2,14 +2,15 @@
 
 This project is a local Retrieval Augmented Generation (RAG) system designed to digest PDF documentation and allow you to chat with it. It focuses on intelligent chunking of technical documents (like PostgreSQL manuals) to preserve context and code blocks.
 
-It uses **Sentence Transformers** for embeddings and **Ollama** for the local LLM inference.
+It uses **Sentence Transformers** for embeddings, **Qdrant** as a local vector database, and **Ollama** for the local LLM inference.
 
 ## Features
 
 - **Smart PDF Chunking**: Converts PDFs to Markdown and splits them by logical sections (chapters, sub-sections).
 - **Context Preservation**: Long sections are split into parts while keeping headers and context from previous parts.
 - **Code Block Aware**: Prevents splitting code blocks across chunks.
-- **Local & Private**: Runs entirely locally using Ollama and local embedding models.
+- **Hybrid Retrieval**: Uses Qdrant to store both dense and sparse vectors and performs hybrid search with `FusionQuery`.
+- **Local & Private**: Runs entirely locally using Ollama, Qdrant, and local embedding models.
 
 ## Prerequisites
 
@@ -53,13 +54,23 @@ This creates a `.chunks.jsonl` file in the `data/` directory.
 
 ### 2. Generate Embeddings
 
-Create vector embeddings for your chunks:
+You can generate embeddings locally into files, or store them directly in Qdrant for hybrid dense+sparse retrieval.
+
+Option A: Save embeddings locally
 
 ```bash
 python embed_chunks.py
 ```
 
 This saves `.npy` (embeddings matrix) and `.embeddings.meta.jsonl` files in `data/`.
+
+Option B: Save embeddings in Qdrant
+
+```bash
+python embed_chunks_db.py
+```
+
+This stores each chunk in Qdrant with both a dense vector and a sparse vector, using the collection name configured in `constants.py`.
 
 ### 3. Chat (RAG)
 
